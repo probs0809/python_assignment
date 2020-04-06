@@ -2,7 +2,7 @@ import csv, json
 import pandas as pd
 import requests
 
-json_data_url = requests.get('https://api.covid19india.org/raw_data.json')
+json_data_url = requests.get('https://shorturl.at/nsv45')
 json_file = open('/Users/prabodhmayekar/Documents/rawjson.json','w')
 json_file.write(str(json_data_url.text))
 json_file.close()
