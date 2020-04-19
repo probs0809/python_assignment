@@ -1,23 +1,29 @@
-import csv, json
 import pandas as pd
+from pandas.io.json import json_normalize
 import requests
+import json
+from pathlib import Path
+RAW_DATA = Path('./covid_19Data_raw.xlsx')
+CLEAN_DATA = Path('./covid_19Data_clean.xlsx')
 
-json_data_url = requests.get('https://shorturl.at/nsv45')
-json_file = open('/Users/prabodhmayekar/Documents/rawjson.json','w')
-json_file.write(str(json_data_url.text))
-json_file.close()
+def get_data(api = 'raw_data',key = 'raw_data'):
+    print("Fetching data...")
+    json_data_url = requests.get('https://api.covid19india.org/'+api+'.json')
+    print("Fetching data completed...")
+    print("Creating excel sheet...")
+    js = json.loads(json_data_url.text)
+    df = json_normalize(js[key])
+    df.to_excel(RAW_DATA)
+    print("Creating excel sheet completed...")
+    return True
 
-fileInput = '/Users/prabodhmayekar/Documents/rawjson.json'
-fileOutput = '/Users/prabodhmayekar/Documents/raw2.csv'
-inputFile = open(fileInput) 
-outputFile = open(fileOutput, 'w') 
-data = json.load(inputFile)
-inputFile.close()
-output = csv.writer(outputFile)
-output.writerow(data['raw_data'][0].keys())
-for row in data['raw_data']:
-    output.writerow(row.values())
-    
-pd.read_csv(fileOutput).to_excel('/Users/prabodhmayekar/Documents/covid_19Data.xlsx')
-print('Completed...')
-
+def clean_data():
+    print("Cleaning data...")
+    df = pd.read_excel(RAW_DATA)
+    df['agebracket'].fillna(-1,inplace = True)
+    df['gender'].fillna('UK',inplace = True)
+    df['statecode'].fillna('UK',inplace=True)
+    df = df[['agebracket','gender','statecode','currentstatus','detectedstate']][df['detectedstate'].notna()]  
+    df.to_excel(CLEAN_DATA)  
+    print("Cleaning data completed...")
+    return True
