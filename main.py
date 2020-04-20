@@ -7,8 +7,8 @@ from pathlib import Path
 import re
 
 # Uncomment the following lines of code while executing for the first time
-gd.get_data()
-gd.clean_data() 
+# gd.get_data()
+# gd.clean_data() 
 df = pd.read_excel(gd.CLEAN_DATA)
 
 gg.generate_male_female_statewise_graph(df,Path('./Visualisations/MaleFemaleStatewise.png'))
