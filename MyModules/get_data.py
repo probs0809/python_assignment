@@ -16,8 +16,19 @@ def get_data(api = 'raw_data',key = 'raw_data'):
 def clean_data():
     df = pd.read_excel(RAW_DATA)
     df['agebracket'].fillna(-1,inplace = True)
+    mydf = df[['agebracket']][df['agebracket'].str.contains("-")== True] 
+    mylist =mydf['agebracket'].unique()
+    mydf = list(map(lambda x : avg(x),mylist))
+    df['agebracket'] = df['agebracket'].replace(mylist,mydf)
+    df['agebracket'] = pd.to_numeric(df['agebracket'])
     df['gender'].fillna('UK',inplace = True)
     df['statecode'].fillna('UK',inplace=True)
     df = df[['agebracket','gender','statecode','currentstatus','detectedstate']][df['detectedstate'].notna()]  
     df.to_excel(CLEAN_DATA)  
     return True
+
+def avg(st):
+    sum = 0
+    for i in st.split("-"):
+        sum += int(i)
+    return str(sum/2)

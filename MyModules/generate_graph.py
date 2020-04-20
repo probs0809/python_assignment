@@ -1,7 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+plt.style.use('ggplot')
+prop_cycle = plt.rcParams['axes.prop_cycle']
+colors = prop_cycle.by_key()['color']
 
 def generate_male_female_statewise_graph(df,path):
     fig,ax= plt.subplots(figsize=(8,22),ncols=3,nrows=10)
@@ -46,14 +48,20 @@ def generate_death_recovery_total_plot(df,path):
     plt.scatter(x,y,s=size*1000,c = size,alpha=0.2,cmap='viridis')
    
     for i,a,b in zip(stateList,x,y):
-        plt.annotate(i, 
-                 (a,b), 
-                 textcoords="offset points", 
-                 xytext=(0,0), 
-                 ha='center') 
+        plt.annotate(i, (a,b), textcoords="offset points", xytext=(0,0), ha='center') 
 
     plt.title('Statewise Recovery rate and deceased rate report of covid-19 based on total cases',fontsize=30)
     plt.xlabel("Recovery Rate",fontsize=20)
     plt.ylabel("Deceased Rate",fontsize = 20)
     plt.savefig(path)
     plt.clf()
+
+
+def generate_age_based_graph(df,path):
+    fig,ax = plt.subplots(figsize=(22,10))
+    age_count_list = np.array(df['agebracket'])
+    plt.hist(age_count_list,range = [0,80],bins=8,facecolor='blue', alpha=0.5)
+    plt.xlabel("Age",fontsize=20)
+    plt.ylabel("Frequency", fontsize=20)
+    plt.title("Age histogram",fontsize=30)
+    plt.savefig(path)
