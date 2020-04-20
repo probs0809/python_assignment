@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def generate_male_female_statewise_graph(df,path):
-    fig,ax= plt.subplots(figsize=(40,13),ncols=6,nrows=5)
+    fig,ax= plt.subplots(figsize=(8,22),ncols=3,nrows=10)
     fig.tight_layout(pad = 4.0)
     stateList = df['detectedstate'].unique()
     gen_count = lambda g,sc : len(df[df['detectedstate']==sc][df['gender']==g])
@@ -32,7 +32,7 @@ def generate_statewise_death_recovery_graph(df,path):
     plt.clf()
 
 def generate_death_recovery_total_plot(df,path):
-    fig,ax = plt.subplots(figsize=(30,14))
+    fig,ax = plt.subplots(figsize=(20,10))
     statecodes = df['statecode'].unique()
     gen_len = lambda g : [len(df[df['statecode']==sc][df['currentstatus']==g]) for sc in statecodes]
     ypos = np.arange(len(statecodes))
