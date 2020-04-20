@@ -15,5 +15,6 @@ gg.generate_male_female_statewise_graph(df,Path('./Visualisations/MaleFemaleStat
 gg.generate_statewise_death_recovery_graph(df,Path('./Visualisations/statewiseStatusGraph.png'))
 gg.generate_death_recovery_total_plot(df,Path('./Visualisations/deathandrecoveryandtotal.png'))
 gg.generate_age_based_graph(df,Path('./Visualisations/AgeHist.png'))
+
 gp.push("update")
 print("FINISH") 
